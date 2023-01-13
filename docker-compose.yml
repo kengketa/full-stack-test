@@ -1,0 +1,34 @@
+version: '3.8'
+
+networks:
+  app-network:
+
+volumes:
+  app-data:
+
+services:
+  web:
+    container_name: web
+    build:
+      context: docker/php
+      dockerfile: Dockerfile
+    volumes:
+      - ./html:/var/www/html
+    networks:
+      app-network:
+
+  webserver:
+    image: nginx:1.21.6-alpine
+    container_name: webserver
+    restart: unless-stopped
+    ports:
+      - "8000:80"
+    volumes:
+      - ./html:/var/www/html
+      - ./docker/nginx:/etc/nginx/conf.d
+    networks:
+      app-network:
+    depends_on:
+      - web
+
+
