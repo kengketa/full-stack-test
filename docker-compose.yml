@@ -14,6 +14,7 @@ services:
       dockerfile: Dockerfile
     volumes:
       - ./html:/var/www/html
+      - ./properties.json:/var/www/html/storage/properties.json
     networks:
       app-network:
 
