@@ -7,6 +7,33 @@ volumes:
   app-data:
 
 services:
+  mariadb:
+    container_name: mariadb
+    image: mariadb:10.6
+    restart: unless-stopped
+    volumes:
+      - app-data:/var/lib/mysql
+      - ./db/schema:/docker-entrypoint-initdb.d
+    environment:
+      TZ: Asia/Bangkok
+      MYSQL_ROOT_PASSWORD: password
+    networks:
+      app-network:
+
+  phpmyadmin:
+    container_name: phpmyadmin
+    image: phpmyadmin
+    restart: unless-stopped
+    environment:
+      PMA_ARBITRARY: 1
+      UPLOAD_LIMIT: 300M
+    ports:
+      - "8888:80"
+    depends_on:
+      - mariadb
+    networks:
+      app-network:
+
   web:
     container_name: web
     build:
@@ -14,7 +41,6 @@ services:
       dockerfile: Dockerfile
     volumes:
       - ./html:/var/www/html
-      - ./properties.json:/var/www/html/storage/properties.json
     networks:
       app-network:
 
