@@ -68,3 +68,16 @@ Please answer the following questions in a markdown file called `Answers to tech
 - How would you track down a performance issue in production? Have you ever had to do this?
     - Yes I have experienced in monitoring projects. I will use a logging package called Bugsnag to monitor bugs that
       may cause in the future.
+
+Deploy guide
+
+- composer install
+- npm install
+- npm run build
+- php artisan migrate:fresh --seed
+
+docker (DB_HOST=mariadb)
+
+- docker compose up -d --build
+- docker exec -it web /bin/bash
+- php artisan migrate:fresh --seed
