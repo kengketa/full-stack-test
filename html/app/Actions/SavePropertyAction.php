@@ -44,6 +44,7 @@ class SavePropertyAction
         $this->property->area_type = $data->area_type;
         $this->property->geo_id = $foundGeo->id;
         $this->property->street = $data->geo->street;
+        $this->property->photos = $data->photos;
         $this->property->save();
         return $this->property;
     }

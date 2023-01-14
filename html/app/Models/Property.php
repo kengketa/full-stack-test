@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Builder;
 
 class Property extends Model
 {
@@ -31,4 +32,18 @@ class Property extends Model
         'street'=>'string',
         'photos'=>'json',
     ];
+
+    public function scopeFilter(Builder $query, array $filters): void
+    {
+        if (isset($filters['province'])) {
+            $provinceLowerCase = strtolower($filters['province']);
+            $query->whereHas('geolocation',function ($q) use ($provinceLowerCase) {
+                $q->where("province", "like", "%$provinceLowerCase%");
+            });
+        }
+    }
+
+    public function geolocation(){
+        return $this->belongsTo(Geolocation::class,'geo_id');
+    }
 }

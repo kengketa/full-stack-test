@@ -1,8 +1,7 @@
 <?php
 
-use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
-use Inertia\Inertia;
+use App\Http\Controllers\PropertyController;
 
 /*
 |--------------------------------------------------------------------------
@@ -15,8 +14,5 @@ use Inertia\Inertia;
 |
 */
 
-Route::get('/', function () {
-    return Inertia::render('Property/Index', [
-
-    ]);
-});
+Route::get("/", [PropertyController::class, "index"])->name("properties.index");
+Route::get("/{province}", [PropertyController::class, "index"])->name("properties.index");

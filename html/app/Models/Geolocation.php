@@ -9,4 +9,5 @@ class Geolocation extends Model
 {
     use HasFactory;
     protected $fillable = ['country','province'];
+    protected $hidden = ['created_at','updated_at','id'];
 }
