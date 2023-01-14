@@ -1,0 +1,61 @@
+version: '3.8'
+
+networks:
+  app-network:
+
+volumes:
+  app-data:
+
+services:
+  mariadb:
+    container_name: mariadb
+    image: mariadb:10.6
+    restart: unless-stopped
+    volumes:
+      - app-data:/var/lib/mysql
+    environment:
+      TZ: Asia/Bangkok
+      MYSQL_ROOT_PASSWORD: password
+      MARIADB_DATABASE: fazwaz
+    networks:
+      app-network:
+
+  phpmyadmin:
+    container_name: phpmyadmin
+    image: phpmyadmin
+    restart: unless-stopped
+    environment:
+      PMA_ARBITRARY: 1
+      UPLOAD_LIMIT: 300M
+    ports:
+      - "8888:80"
+    depends_on:
+      - mariadb
+    networks:
+      app-network:
+
+  web:
+    container_name: web
+    build:
+      context: docker/php
+      dockerfile: Dockerfile
+    volumes:
+      - .:/var/www
+    networks:
+      app-network:
+
+  webserver:
+    image: nginx:1.21.6-alpine
+    container_name: webserver
+    restart: unless-stopped
+    ports:
+      - "8000:80"
+    volumes:
+      - ./html:/var/www/html
+      - ./docker/nginx:/etc/nginx/conf.d
+    networks:
+      app-network:
+    depends_on:
+      - web
+
+
