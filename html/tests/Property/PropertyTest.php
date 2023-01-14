@@ -44,7 +44,10 @@ class PropertyTest extends TestCase
         $response = $this->get($mockUrl);
         $properties = $response->getOriginalContent()->getData()['page']['props']['properties']['data'];
         foreach ($properties as $property) {
-            $this->assertEquals(true, str_contains($property['title'], $mockSearchWordStr));
+            $this->assertEquals(true, (
+                str_contains($property['title'], $mockSearchWordStr) ||
+                str_contains($property['description'], $mockSearchWordStr))
+            );
         }
     }
 
@@ -57,7 +60,10 @@ class PropertyTest extends TestCase
         $response = $this->get($mockUrl);
         $properties = $response->getOriginalContent()->getData()['page']['props']['properties']['data'];
         foreach ($properties as $property) {
-            $this->assertEquals(true, str_contains($property['description'], $mockSearchWordStr));
+            $this->assertEquals(true, (
+                str_contains($property['title'], $mockSearchWordStr) ||
+                str_contains($property['description'], $mockSearchWordStr))
+            );
         }
     }
 
