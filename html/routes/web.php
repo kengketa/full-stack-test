@@ -14,5 +14,4 @@ use App\Http\Controllers\PropertyController;
 |
 */
 
-Route::get("/", [PropertyController::class, "index"])->name("properties.index");
-Route::get("/{province}", [PropertyController::class, "index"])->name("properties.index");
+Route::get("/{province?}", [PropertyController::class, "index"])->name("properties.index");
