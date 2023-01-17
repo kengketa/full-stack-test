@@ -75,6 +75,7 @@ export default {
   },
   computed: {
     computedSearch() {
+      this.currentPage = 1;
       if (this.search == null) {
         return ""
       }
