@@ -7,3 +7,8 @@
 7. RUN npm run build
 8. RUN php artisan key:generate
 9. RUN php artisan migrate:fresh --seed
+10. Vist on http://localhost:8000
+11. visit phpmyadmin http://localhost:8888
+    1. server: mariadb
+    2. username: root
+    3. password: password
